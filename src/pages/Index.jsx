@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { Box, Container, VStack, Heading, Text, Input, Button, Select, Image, useToast } from "@chakra-ui/react";
-import { FaPlane, FaHotel, FaSearch } from "react-icons/fa";
+import { Box, Container, VStack, Heading, Text, Input, Button, Select, useToast } from "@chakra-ui/react";
+import { FaPlane, FaPlaneArrival, FaCalendarAlt, FaSearch } from "react-icons/fa";
 
 const Index = () => {
-  const [destination, setDestination] = useState("");
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState(1);
+  const [departureLocation, setDepartureLocation] = useState("");
+  const [arrivalLocation, setArrivalLocation] = useState("");
+  const [departureDate, setDepartureDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
+  const [passengers, setPassengers] = useState(1);
   const toast = useToast();
 
   const handleSearch = () => {
-    if (!destination || !checkIn || !checkOut) {
+    if (!departureLocation || !arrivalLocation || !departureDate || !returnDate) {
       toast({
         title: "Missing information",
         description: "Please fill in all required fields.",
@@ -22,7 +23,7 @@ const Index = () => {
     }
     toast({
       title: "Search initiated",
-      description: `Searching for ${guests} guest(s) in ${destination} from ${checkIn} to ${checkOut}`,
+      description: `Searching for ${passengers} passenger(s) from ${departureLocation} to ${arrivalLocation} departing on ${departureDate} and returning on ${returnDate}`,
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -35,43 +36,52 @@ const Index = () => {
         <VStack spacing={8} align="stretch">
           <Box textAlign="center" color="white">
             <Heading as="h1" size="2xl" mb={2}>
-              Dream Vacations
+              Flight Finder
             </Heading>
-            <Text fontSize="xl">Discover your perfect getaway</Text>
+            <Text fontSize="xl">Discover your perfect flight</Text>
           </Box>
 
           <Box bg="white" p={8} borderRadius="lg" boxShadow="xl">
             <VStack spacing={4}>
               <Input
-                placeholder="Where do you want to go?"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
+                placeholder="Departure Location"
+                value={departureLocation}
+                onChange={(e) => setDepartureLocation(e.target.value)}
                 size="lg"
                 leftIcon={<FaPlane />}
               />
               <Input
-                type="date"
-                placeholder="Check-in"
-                value={checkIn}
-                onChange={(e) => setCheckIn(e.target.value)}
+                placeholder="Arrival Location"
+                value={arrivalLocation}
+                onChange={(e) => setArrivalLocation(e.target.value)}
                 size="lg"
+                leftIcon={<FaPlaneArrival />}
               />
               <Input
                 type="date"
-                placeholder="Check-out"
-                value={checkOut}
-                onChange={(e) => setCheckOut(e.target.value)}
+                placeholder="Departure Date"
+                value={departureDate}
+                onChange={(e) => setDepartureDate(e.target.value)}
                 size="lg"
+                leftIcon={<FaCalendarAlt />}
+              />
+              <Input
+                type="date"
+                placeholder="Return Date"
+                value={returnDate}
+                onChange={(e) => setReturnDate(e.target.value)}
+                size="lg"
+                leftIcon={<FaCalendarAlt />}
               />
               <Select
-                placeholder="Guests"
-                value={guests}
-                onChange={(e) => setGuests(Number(e.target.value))}
+                placeholder="Passengers"
+                value={passengers}
+                onChange={(e) => setPassengers(Number(e.target.value))}
                 size="lg"
               >
                 {[1, 2, 3, 4, 5].map((num) => (
                   <option key={num} value={num}>
-                    {num} {num === 1 ? "Guest" : "Guests"}
+                    {num} {num === 1 ? "Passenger" : "Passengers"}
                   </option>
                 ))}
               </Select>
@@ -84,22 +94,6 @@ const Index = () => {
               >
                 Search
               </Button>
-            </VStack>
-          </Box>
-
-          <Box bg="white" p={8} borderRadius="lg" boxShadow="xl">
-            <Heading as="h2" size="xl" mb={4} textAlign="center">
-              Popular Destinations
-            </Heading>
-            <VStack spacing={4}>
-              {["Paris", "Tokyo", "New York", "Bali"].map((city) => (
-                <Box key={city} p={4} borderWidth={1} borderRadius="md" width="full">
-                  <Text fontSize="lg" fontWeight="bold">
-                    {city}
-                  </Text>
-                  <Text>Experience the magic of {city}</Text>
-                </Box>
-              ))}
             </VStack>
           </Box>
         </VStack>
