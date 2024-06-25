@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Container, VStack, Heading, Text, Input, Button, Select, useToast } from "@chakra-ui/react";
 import { FaPlane, FaPlaneArrival, FaCalendarAlt, FaSearch } from "react-icons/fa";
 
@@ -9,6 +10,7 @@ const Index = () => {
   const [returnDate, setReturnDate] = useState("");
   const [passengers, setPassengers] = useState(1);
   const toast = useToast();
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     if (!departureLocation || !arrivalLocation || !departureDate || !returnDate) {
@@ -21,12 +23,15 @@ const Index = () => {
       });
       return;
     }
-    toast({
-      title: "Search initiated",
-      description: `Searching for ${passengers} passenger(s) from ${departureLocation} to ${arrivalLocation} departing on ${departureDate} and returning on ${returnDate}`,
-      status: "success",
-      duration: 3000,
-      isClosable: true,
+    // Navigate to the booking confirmation page with the search details
+    navigate("/booking-confirmation", {
+      state: {
+        departureLocation,
+        arrivalLocation,
+        departureDate,
+        returnDate,
+        passengers
+      }
     });
   };
 
